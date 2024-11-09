@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Транскрибатор речи</title>
+  <link rel="stylesheet" href="style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Заголовок в центре вверху блока -->
+    <h1>Транскрибатор речи</h1>
+    
+    <!-- Блок с кнопками: слева и справа -->
+    <div class="options">
+      <!-- Кнопка для записи голоса слева -->
+      <button class="btn">Начать запись</button>
+      
+      <!-- Кнопка для прикрепления файла справа -->
+      <label class="btn" for="file-upload">Прикрепить файл</label>
+      <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+    </div>
+    
+    <!-- Поле для вывода текста ниже кнопок -->
+    <textarea class="text-output" placeholder="Текст появится здесь..." readonly disabled></textarea>
+  </div>
+</body>
+</html>
