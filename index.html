@@ -10,19 +10,76 @@
   <div class="container">
     <!-- Заголовок в центре вверху блока -->
     <h1>Транскрибатор речи</h1>
-    
+
     <!-- Блок с кнопками: слева и справа -->
     <div class="options">
       <!-- Кнопка для записи голоса слева -->
       <button class="btn">Начать запись</button>
-      
+
       <!-- Кнопка для прикрепления файла справа -->
-      <label class="btn" for="file-upload">Прикрепить файл</label>
       <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+      <label class="btn" for="file-upload">Прикрепить файл</label>
     </div>
-    
+    <script>
+      const socket = new WebSocket("ws://localhost:8765");
+
+      socket.onopen = function(event) {
+          console.log("WebSocket connection established");
+      };
+      document.getElementById("file-upload").onclick = function() {
+          sendAudio();
+      };
+
+      // При ошибке соединения
+      socket.onerror = function(event) {
+          console.error("WebSocket error:", event);
+      };
+
+
+      socket.onmessage = (event) => {
+          console.log("Received response from server:", event.data);
+          const response = JSON.parse(event.data);
+          if (response.transcription) {
+              // Находим поле textarea и вставляем текст транскрипции
+              document.getElementById("transcriptionResult").value = response.transcription;
+          } else if (response.error) {
+              console.error("Transcription error:", response.error);
+          }
+      };
+
+      function sendAudio() {
+          const fileInput = document.getElementById("file-upload");
+          const file = fileInput.files[0];
+
+          if (file) {
+              console.log("Sending audio to WebSocket server...");
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                  const audioContentBase64 =  event.target.result.split(",")[1];
+
+                  // Отправляем аудиофайл в виде JSON-объекта
+                  const data = {
+                      audio_content: audioContentBase64
+                  };
+                  console.log("Audio content ready, sending...");
+                  socket.send(JSON.stringify(data));
+              };
+              reader.onerror = function(error) {
+                  console.error("Error reading file:", error);
+              };
+              reader.readAsDataURL(file); // Преобразуем в Base64 для передачи через WebSocket
+          } else {
+              alert("Please select an audio file first.");
+          }
+          if (!file) {
+              console.log("Please select an audio file first.");
+              return;
+          }
+      }
+  </script>
+
     <!-- Поле для вывода текста ниже кнопок -->
-    <textarea class="text-output" placeholder="Текст появится здесь..." readonly disabled></textarea>
+    <textarea class="text-output" id = "transcriptionResult" placeholder="Текст появится здесь..." readonly disabled></textarea>
   </div>
 </body>
 </html>
