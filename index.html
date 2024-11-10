@@ -19,6 +19,10 @@
       <!-- Кнопка для прикрепления файла справа -->
       <input type="file" id="file-upload" accept="audio/*" style="display: none;">
       <label class="btn" for="file-upload">Прикрепить файл</label>
+
+      <!-- Кнопка для подтверждения и статус загрузки -->
+      <span id="fileStatus" style="margin-left: 10px;"></span> <!-- Уведомление о статусе -->
+      <button id="confirmButton" style="display: none;">Подтвердить и транскрибировать</button>
     </div>
     <script>
       const socket = new WebSocket("ws://localhost:8765");
@@ -26,15 +30,30 @@
       socket.onopen = function(event) {
           console.log("WebSocket connection established");
       };
-      document.getElementById("file-upload").onclick = function() {
-          sendAudio();
-      };
 
       // При ошибке соединения
       socket.onerror = function(event) {
           console.error("WebSocket error:", event);
       };
 
+      document.getElementById("file-upload").onchange = function() {
+        const fileInput = document.getElementById("file-upload");
+        const file = fileInput.files[0];
+
+        if (file) {
+            // Показываем уведомление и кнопку подтверждения
+            document.getElementById("fileStatus").textContent = "Файл загружен: " + file.name;
+            document.getElementById("confirmButton").style.display = "inline-block";
+        } else {
+            document.getElementById("fileStatus").textContent = "Пожалуйста, выберите файл.";
+            document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку, если файл не выбран
+        }
+      };
+
+      // Обработчик подтверждения и отправки файла
+      document.getElementById("confirmButton").onclick = function() {
+          sendAudio();
+      };
 
       socket.onmessage = (event) => {
           console.log("Received response from server:", event.data);
@@ -42,8 +61,12 @@
           if (response.transcription) {
               // Находим поле textarea и вставляем текст транскрипции
               document.getElementById("transcriptionResult").value = response.transcription;
+              document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
+              document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
+              document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
           } else if (response.error) {
               console.error("Transcription error:", response.error);
+              document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
           }
       };
 
@@ -52,30 +75,31 @@
           const file = fileInput.files[0];
 
           if (file) {
-              console.log("Sending audio to WebSocket server...");
-              const reader = new FileReader();
-              reader.onload = function(event) {
-                  const audioContentBase64 =  event.target.result.split(",")[1];
+              if (socket.readyState === WebSocket.OPEN) {
+                  const reader = new FileReader();
+
+                  reader.onload = function(event) {
+                      const audioContentBase64 =  event.target.result.split(",")[1];
 
                   // Отправляем аудиофайл в виде JSON-объекта
-                  const data = {
-                      audio_content: audioContentBase64
+                      const data = {
+                          audio_content: audioContentBase64
+                      };
+                      console.log("Sending audio data:", data);
+                      socket.send(JSON.stringify(data));
                   };
-                  console.log("Audio content ready, sending...");
-                  socket.send(JSON.stringify(data));
-              };
-              reader.onerror = function(error) {
+                  reader.onerror = function(error) {
                   console.error("Error reading file:", error);
               };
-              reader.readAsDataURL(file); // Преобразуем в Base64 для передачи через WebSocket
+                reader.readAsDataURL(file); // Преобразуем в Base64 для передачи через WebSocket
           } else {
-              alert("Please select an audio file first.");
+              console.log("WebSocket is not ready. Please try again.");
           }
-          if (!file) {
-              console.log("Please select an audio file first.");
-              return;
-          }
+      } else {
+        console.log("No file selected.");
       }
+      }
+
   </script>
 
     <!-- Поле для вывода текста ниже кнопок -->
