@@ -64,9 +64,6 @@
               document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
               document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
               document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
-          } else if (response.error) {
-              console.error("Transcription error:", response.error);
-              document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
           }
       };
 
