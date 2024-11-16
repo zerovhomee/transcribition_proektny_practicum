@@ -13,16 +13,22 @@
 
     <!-- Блок с кнопками: слева и справа -->
     <div class="options">
-      <!-- Кнопка для записи голоса слева -->
-      <button class="btn">Начать запись</button>
 
-      <!-- Кнопка для прикрепления файла справа -->
-      <input type="file" id="file-upload" accept="audio/*" style="display: none;">
-      <label class="btn" for="file-upload">Прикрепить файл</label>
+      <div class="main-btn">
+        <!-- Кнопка для записи голоса слева -->
+        <button class="btn">Начать запись</button>
 
-      <!-- Кнопка для подтверждения и статус загрузки -->
-      <span id="fileStatus" style="margin-left: 10px;"></span> <!-- Уведомление о статусе -->
-      <button id="confirmButton" style="display: none;">Подтвердить и транскрибировать</button>
+        <!-- Кнопка для прикрепления файла справа -->
+        <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+        <label class="btn" for="file-upload">Прикрепить файл</label>
+      </div>
+
+      <div class="submit-button-span" id="submit-file">
+        <!-- Кнопка для подтверждения и статус загрузки -->
+        <span id="fileStatus"></span> <!-- Уведомление о статусе -->
+        <button id="confirmButton">Подтвердить и транскрибировать</button>
+      </div>
+
     </div>
     <script>
       const socket = new WebSocket("ws://localhost:8765");
@@ -64,6 +70,9 @@
               document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
               document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
               document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
+          } else if (response.error) {
+              console.error("Transcription error:", response.error);
+              document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
           }
       };
 
@@ -100,7 +109,8 @@
   </script>
 
     <!-- Поле для вывода текста ниже кнопок -->
-    <textarea class="text-output" id = "transcriptionResult" placeholder="Текст появится здесь..." readonly disabled></textarea>
+    <textarea class="text-output" id="transcriptionResult" placeholder="Текст появится здесь..." readonly disabled></textarea>
   </div>
+  <script src="script/script.js"></script>
 </body>
 </html>
