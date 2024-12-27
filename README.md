@@ -13,7 +13,7 @@ https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/ здесь ту�
 У вас должен быть установлен Git, если нет установите отсюда https://git-scm.com/downloads
 Создайте новый терминал Git Bash, далее введите следующие команды
 `git init`
-'git clone https://github.com/zerovhomee/transcribition_proektny_practicum`
+`git clone https://github.com/zerovhomee/transcribition_proektny_practicum`
 ### Запуск проекта
 В терминале выполните команду
 `python server.py`
