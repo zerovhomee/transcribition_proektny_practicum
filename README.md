@@ -8,6 +8,28 @@
 # Установка (без использования Docker)
 ## Windows
 https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/ здесь туториал как установить ffmpeg, он необходим для работы whisper.
+Пакеты Python:
+
+openai-whisper
+
+base64
+
+io
+
+websockets
+
+asyncio
+
+json
+
+tempfile
+
+os
+
+Если какие то из пакетов у вас не установлены и подсвечиваются желтым в редакторе, установите их командой в терминале:
+
+`pip install "Название пакета"`
+
 ### Копирование проекта
 Создайте папку в удобном для вас месте, откройте его в редакторе кода (предпочтительнее Visual Studio Code)
 
