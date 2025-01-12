@@ -1,20 +1,22 @@
-FROM python:3.9
-LABEL authors="trueBedolagi"
+FROM python:3.9-slim
 
-RUN apt-get update && apt-get upgrade -y
-RUN mkdir /site
-COPY  . /site/
-WORKDIR /site
+
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
-RUN pip install asyncio
-RUN pip install websockets
-RUN pip install git+https://github.com/openai/whisper.git 
-RUN apt-get install -y ffmpeg
 
 
-WORKDIR /usr/share/nginx/html/
-COPY index.html ./
-COPY style/styles.css .
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-CMD ["python", "./server.py"]
+
+COPY . /app
+WORKDIR /app
+
+
+EXPOSE 8080
+EXPOSE 80
+
+CMD ["python", "server.py"]

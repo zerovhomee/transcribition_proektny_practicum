@@ -5,6 +5,10 @@ from python import TryWhisper # Импорт функции для транск�
 import base64
 import tempfile
 import os
+import http.server
+import socketserver
+
+HTTP_PORT = 8080
 
 async def transcribe(websocket, path=None):
     print("Connection established")
@@ -38,10 +42,28 @@ async def transcribe(websocket, path=None):
 
 
 async def main():
-    async with websockets.serve(transcribe, "localhost", 8765):
-        print("WebSocket server is running on ws://localhost:8765")
+    async with websockets.serve(transcribe, "0.0.0.0", 80):
+        print("WebSocket server is running on ws://localhost:80")
         await asyncio.Future()  # Бесконечное ожидание для поддержания работы сервера
+
+class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        # Установим CORS-заголовки, если нужно
+        self.send_header('Access-Control-Allow-Origin', '*')
+        super().end_headers()
+
+# Функция для запуска HTTP-сервера
+def run_http_server():
+    handler = MyHttpRequestHandler
+    with socketserver.TCPServer(("", HTTP_PORT), handler) as httpd:
+        print(f"Serving HTTP on port {HTTP_PORT}")
+        httpd.serve_forever()
 
 # Запуск основного цикла событий
 if __name__ == '__main__':
+    from threading import Thread
+    http_thread = Thread(target=run_http_server)
+    http_thread.daemon = True
+    http_thread.start()
+
     asyncio.run(main())
