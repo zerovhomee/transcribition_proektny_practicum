@@ -10,13 +10,13 @@ https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/ здесь ту�
 
 Пакеты Python:
 
-*torch
+* torch
 
-*transformers
+* transformers
 
-*websockets
+* websockets
 
-*asyncio
+* asyncio
 
 Если какие то из пакетов у вас не установлены и подсвечиваются желтым в редакторе, установите их командой в терминале:
 
