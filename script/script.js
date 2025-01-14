@@ -43,7 +43,7 @@ document.getElementById("file-upload").onchange = function () {
 // Обработчик подтверждения и отправки файла
 document.getElementById("confirmButton").onclick = function () {
   sendAudio();
-  document.getElementById("download-file").style.display = "block";
+  //document.getElementById("download-file").style.display = "block";
 };
 
 socket.onmessage = (event) => {
@@ -55,10 +55,10 @@ socket.onmessage = (event) => {
     document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
     document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
     document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
-    // document.getElementById("download-file").style.display = "block";
+    document.getElementById("download-file").style.display = "block";
   } else if (response.error) {
     console.error("Transcription error:", response.error);
-    document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
+    //document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
   }
 };
 
