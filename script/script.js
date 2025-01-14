@@ -1,8 +1,11 @@
 const socket = new WebSocket("ws://localhost:80");
+const container = document.querySelector(".container");
+const textOutput = document.querySelector(".text-output");
 
 socket.onopen = function (event) {
   console.log("WebSocket connection established");
 };
+
 
 // При ошибке соединения
 socket.onerror = function (event) {
@@ -11,6 +14,20 @@ socket.onerror = function (event) {
 
 document.getElementById("file-upload").onchange = function () {
   const fileInput = document.getElementById("file-upload");
+  container.style.maxHeight = "530px";
+  setTimeout(() => {
+    container.classList.remove("shrink");
+    container.classList.add("expand");
+
+    textOutput.classList.remove("shrink");
+    textOutput.classList.add("expand");
+
+    // Убираем класс expand после завершения анимации
+    setTimeout(() => {
+      container.classList.remove("expand");
+      textOutput.classList.remove("expand");
+    }, 800); // Длительность анимации
+  }, 1000); // Время до начала возвращения высоты
   const file = fileInput.files[0];
 
   if (file) {
@@ -26,6 +43,7 @@ document.getElementById("file-upload").onchange = function () {
 // Обработчик подтверждения и отправки файла
 document.getElementById("confirmButton").onclick = function () {
   sendAudio();
+  document.getElementById("download-file").style.display = "block";
 };
 
 socket.onmessage = (event) => {
@@ -37,7 +55,27 @@ socket.onmessage = (event) => {
     document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
     document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
     document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
+    // document.getElementById("download-file").style.display = "block";
+  } else if (response.error) {
+    console.error("Transcription error:", response.error);
+    document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
   }
+};
+
+document.getElementById("downloadButton").onclick = function () {
+  const transcriptionText = document.getElementById("transcriptionResult").value;
+
+  // Создаем Blob для текста
+  const blob = new Blob([transcriptionText], { type: "text/plain" });
+
+  // Создаем ссылку для скачивания
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "transcription.txt";
+  a.click();
+
+  // Освобождаем URL после использования
+  URL.revokeObjectURL(a.href);
 };
 
 function sendAudio() {

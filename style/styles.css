@@ -11,11 +11,13 @@ body {
 .container {
   text-align: center;
   width: 600px;
-  height: 500px;
   padding: 30px;
   background-color: #ffffff;
   border-radius: 25px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-height: 400px;
+  transition: max-height 0.8s ease-in-out;
 }
 
 /* Центрируем заголовок наверху */
@@ -70,6 +72,8 @@ h1 {
   background-color: #f9f9f9;
   resize: none;
   box-sizing: border-box;
+  overflow: hidden;
+  transition: max-height 0.8s ease-in-out;
 }
 /* 133722281488 */
 
@@ -81,6 +85,7 @@ h1 {
 
 .submit-button-span{
   display: none;
+  margin-top: 7px;
 }
 
 .visible-block{
@@ -110,6 +115,28 @@ h1 {
 #fileStatus{
   font-size: 16px;
   font-family: monospace;
-  font-weight: 600;
 }
 
+.text-output.shrink {
+  height: 180px; /* Сжатая высота текстового поля */
+}
+
+.text-output.expand {
+  height: 260px; /* Исходная высота текстового поля */
+  transition: height 0.8s ease-in-out;
+}
+
+#downloadButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #8bc34a;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#downloadButton:hover {
+  background-color: #689f38;
+}

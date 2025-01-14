@@ -15,9 +15,6 @@
     <div class="options">
 
       <div class="main-btn">
-        <!-- Кнопка для записи голоса слева -->
-        <button class="btn">Начать запись</button>
-
         <!-- Кнопка для прикрепления файла справа -->
         <input type="file" id="file-upload" accept="audio/*" style="display: none;">
         <label class="btn" for="file-upload">Прикрепить файл</label>
@@ -33,6 +30,9 @@
 
     <!-- Поле для вывода текста ниже кнопок -->
     <textarea class="text-output" id="transcriptionResult" placeholder="Текст появится здесь..." readonly disabled></textarea>
+    <div class="submit-button-span" id="download-file" style="display: none;">
+        <button id="downloadButton">Скачать текстовый документ</button>
+    </div>
   </div>
   <script src="script/script.js"></script>
 </body>
