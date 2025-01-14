@@ -17,7 +17,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   max-height: 400px;
-  transition: max-height 0.8s ease-in-out;
+  transition: max-height 0.6s ease-in-out;
 }
 
 /* Центрируем заголовок наверху */
@@ -72,7 +72,7 @@ h1 {
   background-color: #f9f9f9;
   resize: none;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
   transition: max-height 0.8s ease-in-out;
 }
 /* 133722281488 */

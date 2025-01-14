@@ -42,7 +42,7 @@ async def transcribe(websocket, path=None):
 
 
 async def main():
-    async with websockets.serve(transcribe, "0.0.0.0", 80):
+    async with websockets.serve(transcribe, "localhost", 80,  max_size=10 * 1024 * 1024):
         print("WebSocket server is running on ws://localhost:80")
         await asyncio.Future()  # Бесконечное ожидание для поддержания работы сервера
 
