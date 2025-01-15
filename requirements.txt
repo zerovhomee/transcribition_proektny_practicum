@@ -1,3 +1,5 @@
+torch
 openai-whisper
+transformers
 websockets
 asyncio

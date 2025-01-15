@@ -17,7 +17,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   max-height: 400px;
-  background: linear-gradient(180deg, #3B67C7, #2C4D94, #243F7A, #1D3261);
+  transition: max-height 0.8s ease-in-out;
 }
 
 /* Центрируем заголовок наверху */

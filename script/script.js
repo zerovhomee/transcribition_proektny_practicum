@@ -61,7 +61,7 @@ socket.onmessage = (event) => {
     document.getElementById("download-file").style.display = "block";
   } else if (response.error) {
     console.error("Transcription error:", response.error);
-    document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
+    //document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
   }
 };
 
