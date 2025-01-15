@@ -6,13 +6,14 @@ body {
   height: 100vh;
   margin: 0;
   background-image: url("../images/background.png");
+  background-size: 100%;
 }
 
 .container {
   text-align: center;
   width: 600px;
   padding: 30px;
-  background-color: #ffffff;
+  background: linear-gradient(180deg, #3B67C7, #2C4D94, #243F7A, #1D3261);
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;

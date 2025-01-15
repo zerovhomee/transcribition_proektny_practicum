@@ -57,7 +57,6 @@ socket.onmessage = (event) => {
     document.getElementById("transcriptionResult").value = response.transcription;
     document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
     document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
-    document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
     document.getElementById("download-file").style.display = "block";
   } else if (response.error) {
     console.error("Transcription error:", response.error);
