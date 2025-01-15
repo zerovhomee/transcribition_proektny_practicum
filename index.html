@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Транскрибатор речи</title>
   <link rel="stylesheet" href="style/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- <img class="cat" src="../images/cat.png"> -->
   <div class="container">
     <!-- Заголовок в центре вверху блока -->
     <h1>Транскрибатор речи</h1>
-
     <!-- Блок с кнопками: слева и справа -->
     <div class="options">
 
@@ -22,12 +23,12 @@
 
       <div class="submit-button-span" id="submit-file">
         <!-- Кнопка для подтверждения и статус загрузки -->
-        <span id="fileStatus"></span> <!-- Уведомление о статусе -->
         <button id="confirmButton">Подтвердить и транскрибировать</button>
       </div>
-
     </div>
-
+    <div class="fileStatus-container">
+      <span id="fileStatus"></span> <!-- Уведомление о статусе -->
+    </div>
     <!-- Поле для вывода текста ниже кнопок -->
     <textarea class="text-output" id="transcriptionResult" placeholder="Текст появится здесь..." readonly disabled></textarea>
     <div class="submit-button-span" id="download-file" style="display: none;">

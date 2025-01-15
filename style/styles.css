@@ -1,11 +1,11 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #f4f4f9;
+  background-image: url("../images/background.png");
 }
 
 .container {
@@ -13,16 +13,16 @@ body {
   width: 600px;
   padding: 30px;
   background-color: #ffffff;
-  border-radius: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   max-height: 400px;
-  transition: max-height 0.8s ease-in-out;
+  background: linear-gradient(180deg, #3B67C7, #2C4D94, #243F7A, #1D3261);
 }
 
 /* Центрируем заголовок наверху */
 h1 {
-  color: #333;
+  color: white;
   text-align: center;
 }
 
@@ -30,10 +30,9 @@ h1 {
 .options {
   display: flex;
   justify-content: center;
+  flex-direction: row;
   margin-bottom: 20px;
   gap: 20px;
-
-  flex-direction: column;
 }
 
 /* Стили для кнопок */
@@ -43,13 +42,12 @@ h1 {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #a4b3ca;
+  background: linear-gradient(90deg, #14CFFC, #10A5C9, #0E90AF, #0C7B96);
   border: none;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
   text-align: center;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,16 +66,17 @@ h1 {
   padding: 10px;
   color: #555;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #f9f9f9;
   resize: none;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
   transition: max-height 0.8s ease-in-out;
 }
 /* 133722281488 */
 
 .main-btn{
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -85,7 +84,9 @@ h1 {
 
 .submit-button-span{
   display: none;
-  margin-top: 7px;
+  justify-content: space-between;
+  gap: 10px;
+
 }
 
 .visible-block{
@@ -97,9 +98,9 @@ h1 {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #a4b3ca;
+  background: linear-gradient(90deg, #14CFFC, #10A5C9, #0E90AF, #0C7B96);
   border: none;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
   text-align: center;
@@ -112,9 +113,15 @@ h1 {
   background-color: #72849d;
 }
 
+.fileStatus-container {
+  margin-bottom: 15px;
+}
+
 #fileStatus{
-  font-size: 16px;
+  font-size: 18px;
   font-family: monospace;
+  color: white;
+  margin-bottom: 20px;
 }
 
 .text-output.shrink {
@@ -127,16 +134,39 @@ h1 {
 }
 
 #downloadButton {
+  margin-top: 25px;
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #8bc34a;
+  background: linear-gradient(90deg, #14CFFC, #10A5C9, #0E90AF, #0C7B96);
   border: none;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 #downloadButton:hover {
   background-color: #689f38;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .options {
+    flex-direction: column; /* Кнопки в одну колонку */
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.cat {
+  object-position: 30% 30%;
+  width: 12%;
+  height: 20%;
 }

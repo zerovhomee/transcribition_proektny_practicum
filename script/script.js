@@ -13,7 +13,11 @@ socket.onerror = function (event) {
 };
 
 document.getElementById("file-upload").onchange = function () {
+  const mainBtn = document.querySelector(".main-btn");
+  const submitButton = document.querySelector(".submit-button-span");
   const fileInput = document.getElementById("file-upload");
+  mainBtn.style.width = "50%";
+  submitButton.style.width = "50%";
   container.style.maxHeight = "530px";
   setTimeout(() => {
     container.classList.remove("shrink");
@@ -43,7 +47,6 @@ document.getElementById("file-upload").onchange = function () {
 // Обработчик подтверждения и отправки файла
 document.getElementById("confirmButton").onclick = function () {
   sendAudio();
-  document.getElementById("download-file").style.display = "block";
 };
 
 socket.onmessage = (event) => {
@@ -55,7 +58,7 @@ socket.onmessage = (event) => {
     document.getElementById("fileStatus").textContent = "Транскрибация завершена!";
     document.getElementById("file-upload").value = ""; // Сброс поля выбора файла
     document.getElementById("confirmButton").style.display = "none"; // Скрыть кнопку подтверждения
-    // document.getElementById("download-file").style.display = "block";
+    document.getElementById("download-file").style.display = "block";
   } else if (response.error) {
     console.error("Transcription error:", response.error);
     document.getElementById("fileStatus").textContent = "Ошибка при транскрибации.";
@@ -63,12 +66,40 @@ socket.onmessage = (event) => {
 };
 
 document.getElementById("downloadButton").onclick = function () {
-  const transcriptionText = document.getElementById("transcriptionResult").value;
+  // Получаем текст из поля с транскрипцией
+  let transcriptionText = document.getElementById("transcriptionResult").value;
 
-  // Создаем Blob для текста
-  const blob = new Blob([transcriptionText], { type: "text/plain" });
+  // Устанавливаем максимальную длину строки
+  const maxLineLength = 80;
 
-  // Создаем ссылку для скачивания
+  // Разбиваем текст с учётом пробелов
+  const formattedText = transcriptionText
+    .split('\n') // Сначала разделяем текст на строки, если они уже есть
+    .map(line => {
+      const words = line.split(' '); // Разделяем строку на слова
+      let currentLine = '';
+      const resultLines = [];
+
+      words.forEach(word => {
+        if ((currentLine + word).length > maxLineLength) {
+          resultLines.push(currentLine.trim()); // Добавляем текущую строку в результат
+          currentLine = ''; // Начинаем новую строку
+        }
+        currentLine += word + ' '; // Добавляем слово в текущую строку
+      });
+
+      if (currentLine) {
+        resultLines.push(currentLine.trim()); // Добавляем последнюю строку
+      }
+
+      return resultLines.join('\r\n'); // Собираем строки с переносами
+    })
+    .join('\r\n'); // Собираем весь текст с переносами строк
+
+  // Создаём Blob для текста
+  const blob = new Blob([formattedText], { type: "text/plain" });
+
+  // Создаём ссылку для скачивания
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "transcription.txt";
@@ -77,6 +108,7 @@ document.getElementById("downloadButton").onclick = function () {
   // Освобождаем URL после использования
   URL.revokeObjectURL(a.href);
 };
+
 
 function sendAudio() {
   const fileInput = document.getElementById("file-upload");
